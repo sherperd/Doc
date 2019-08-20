@@ -27,3 +27,4 @@
 15、响应式编程（reactive programming），一种声明式的编程模式，程序在改模式中对事件作出响应。基于异步事件的（asynchronous event），而不是异步操作（asynchronous operation）。
 16、异步事件可以没有一个实际的“开始”，可以在任何时间发生，并且可以发生多次，如用户的输入。
 17、
+18、
