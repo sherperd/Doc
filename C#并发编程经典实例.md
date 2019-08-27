@@ -74,4 +74,36 @@
 5、转换.NET事件，subscribe、SubscribeOn（控制订阅和退订的上下文）
 6、事件是Rx流数据的主要来源。
 7、发通知给上下文，ObserveOn，把通知转移到一个Rx调度器上。
-8、用窗口和缓冲对事件分组，
+8、用窗口和缓冲对事件分组，Buffer和Window。Buffer等待组内的所有事件，然后把所有事件作为一个集合发布。Window用同样的方法进行分组，但它是在每个事件到达时就发布。限流（throttling）
+9、Rx尽量做到了线程不可知（thread agnostic）
+10、用限流和抽样抑制事件流。Throttle和Sample。Throttle建立了一个临时窗口，超时期限可以设置（常用于文本框自动填充场合）。Sample建立了一个有规律的超时时间段，每个时间段结束时，它就发布该时间段内最后一条数据。标准LINQ的Where操作符
+11、超时，单一的异步操作（如，等待Web服务请求的响应）。Timeout在输入流上建立一个可调节的超时窗口。非常适用于异步操作。
+
+第 6 章 测试技巧
+1、单元测试两大好处：更好的理解代码。修改代码时更有把握（提前准备，以免以后麻烦）。
+2、async方法的单元测试。单元测试框架检测到方法的返回类型是Task，会自动加上await等待任务完成，然后将测试结果标记为“成功”或“失败”。
+3、对每个测试进行超时设置很有用。通常将每一个测试的超时参数设置成2秒。
+4、预计失败的async方法的单元测试，建议不要使用ExpectedException（更适用于测试某个特定点抛出的异常，而不是整个测试过程中随时抛出的异常）。使用ThrowException
+5、对错误处理进行测试，与测试正确的场景一样重要。
+6、async void方法的单元测试，要尽最大可能避免这个问题，而不是去解决它。进行代码重构，而不是使用AsyncContext。
+7、在async代码中，关键准则之一就是避免使用async void。
+8、数据流网格额单元测试，
+9、Rx Observable对象的单元测试。SingleAsync操作符返回一个Task<T>对象，该对象在下一个事件到达时完成。SingleAsync可用来做简单的单元测试。
+10、Return操作符创建一个只有一个元素的冷序列（cold sequence），可用它来构建简单的存根（stub）。
+11、存根代码中另一个重要操作符是Throw，它返回一个以错误结束的Observable对象。
+12、用虚拟时间测试Rx Observable对象，允许调用它的程序指定调度器。用TestScheduler可以对时间进行完整地控制。使用虚拟时间立即完成。
+
+第 7 章 互操作
+1、用async代码封装Async方法与Completed事件，
+2、基于事件的异步模式（EAP），基于任务的异步模式（TAP）
+3、在新编写的代码时都要使用HttpClient。只有在维护以前遗留代码时才用WebClient。
+4、用async代码封装Begin/End方法。使用TaskFactory类型的一个FromAsync方法。
+5、异步编程模型（APM）
+6、用async代码封装所有异步操作，
+7、用async代码封装并行代码，将并行处理封装进Tesk.Run，并使用await。只能用于UI代码。在服务端很少用并行处理。
+8、用async代码封装Rx Observable对象，
+9、用Rx Observable对象封装async代码，
+10、Rx Observable对象和数据流对象，
+
+第 8 章 集合
+1、
