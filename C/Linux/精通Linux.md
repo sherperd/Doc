@@ -45,3 +45,63 @@
 34、了解更多细节，需要实际操作一番。
 
 第 2 章 基础命令和目录结构
+1、《The Linux Commond Line》、《UNIX for the Impatient》、《Learning the UNIX Operation System，5th edition》
+2、Bourne shell：/bin/sh，贝尔实验室开发的标准shell。
+3、shell意思为命令行界面，是Unix操作系统中最为重要的部分之一。Unix程序员可以将通用的任务分解为一些小的组件，然后使用shell来管理和组织它们。
+4、shell脚本，它们是包含一系列shell命令的文本文件。（MS-DOS，.bat批处理文件）。
+5、Linux使用了一个增强版本的Bourne shell，称之为bash或者“Bourne-again” shell。大部分Linux系统的默认shell是bash，其通常有一个符号链接/bin/sh。
+6、chsh命令更改默认shell。
+7、shell窗口，也叫终端窗口。cat
+8、Unix进程使用I/O流来读写数据。CTRL-D终止当前终端的标准输入并终止命令(通常会终止一个程序)；CTRL-C，终止当前进程的运行，无论是否有标准输入和输出。数据流机制。cat从Linux内核提供的默认标准输入流中获得输入数据。
+9、标准流的一个优点是可以随心所欲地指定数据的输入和输出来源。
+10、ls、cp、mv、touch、rm、echo。
+11、通过路径或路径名来访问文件。cd、mkdir、rmdir、。使用-rf时尽量不要在参数里使用通配符(如*)，且执行命令前最好检查参数是否正确。
+12、shell通配符，匹配文件名和目录。(*代表任意字符和数字)，?，帮助shell确切匹配任意一个字符。不想让shell展开通配符，可使用单引号。必须掌握(*和?)
+13、注意：shell是先展开通配符，后执行命令的。
+14、grep，显示文件和输入流中和参数匹配的行。-i、-v；egrep(grep -E).识别正则表达式(比通配符功能更强大)。
+15、《Matering Regular Exception，3rd edition》《Programming Perl，4th edition》《Introduction to Automata Theory, Laguage,and Computation》
+16、less，查看文件过大或内容过多需要滚屏。空格---下一屏，B---上一屏，Q---退出。实际是more的增强版本。一些Unix系统和嵌入式系统中没有这个命令。搜索，/---向前搜索，？---向后搜索，N---跳到下一个匹配。
+17、pwd,符号链接，pwd -P，查看信息。
+18、diff，查看两个文件的不同。-u，这个格式能被许多自动化工具很好的识别。
+19、file,文件格式。find和locate，find可使用模式匹配，但必须加引号，以免shell自动将它们展开。locate在系统创建的文件索引中查找文件。这个索引由操作系统周期性的更新，查找速度比find快。
+20、head(显示文件的前10行)和tail(显示文件的最后10行)
+21、sort,将文件内的所有行按照字母顺序快速排序。-n，按照数字顺序排序那些数字的开头的行。-r，反向排序。
+22、password，更改密码。设置密码的一个好方法，选择一个你能记住的短句，将其中的某些字符替换为数字和标点，然后将这个密码记牢。chsh更改shell。
+23、dot文件，常见的dot文件有.bashrc和.login，shell通配符不匹配dot文件，除非明确指定.*。可使用正则表达式.[^.]*或.??*来排除这两个目录。
+24、shell中可保存一些临时变量，称为shell变量，它们是一些字符值。可保存脚本执行过程中的数据。环境变量能够被shell中运行的所有进程访问。可通过export命令来设置。许多程序使用环境变量作为配置和选项信息。许多命令的帮助手册都有ENVIRONMENT，教你如何使用环境变量来设置该命令的参数和选项。
+25、PATH是一个特殊的环境变量，它定义了命令路径(是一个系统目录列表，shell执行一个命令的时候，会去这些目录中查找这个命令)。
+26、PATH=dir:$PATH，将路径/dir加入到PATH的最前面。PATH=$PATH:dir，最后面。
+27、Linux，术语，《Jargon File》(http://www.catb.org/jargon/html)或它的印刷版本《The New Hacker's Dictionary》，
+28、Perl编程语言，用到了几乎所有这些特殊字符。
+29、使用ctrl键来替代箭头会更加方便。
+30、Unix使用纯文本文件来保存配置信息。需要强大的编辑器。vi(高效快速)或Emacs(万能、强大、在线帮助)，Unix标准编辑器。
+31、《Learning the vi and Vim Editors：Unix Text Processing，7th edition》
+32、Linux系统的帮助文档非常丰富。帮助手册提供命令的使用说明。man -k keyword,借助关键字查找帮助手册。
+33、帮助手册章节：用户命令、系统调用、Unix高级编程库文档、设备接口和设备驱动信息、文件描述符、游戏、文件格式、系统命令和服务器。
+34、GUN，引入info文档，更加丰富。
+35、>   >>
+36、查看出错信息。
+37、段错误、总线错误，通常是程序的输入数据有问题。
+38、信号是内核发给进程的一条消息。当kill命令运行时，它请求内核发送一个信号给进程。
+39、shell支持任务控制，是通过不同的按键和命令向进程发送TSTP信号的一种方式。
+40、后台进程，&。在你退出系统后仍会一直运行，比较适合用于哪些耗时很长的进程。
+41、权限位。s--(setuid)，将已文件拥有者的身份运行文件。chmod,更改文件权限。注意：不要将全局权限设置为可写，所有人都能修改文件。绝对权限设置(644)，umask，为文件设置预定的默认权限。
+42、符号链接指向文件或者目录的文件。相当于文件的别名(类似于Windows中的快捷方式)。它为复杂的目录提供了便捷快速的访问方式。链式符号链接。
+43、ln -s，创建符号链接。方便管理、组织、共享文件。
+44、gzip(.gz).gunzip，只压缩单文件。
+45、tar，压缩和归档多文件。cvf, xvf(解压)。内容预览模式，-t。。-p，保留被归档文件的权限信息。超级用户默认开启。zcat，等同于gunzip -dc，
+46、注意：.tgz(主要针对MS-DOS的FAT文件系统)和.tar.gz文件没有区别。
+47、Unix系统中另一个压缩命令bzip2(.bz2)，执行效率比gzip稍慢，主要用来压缩文本文件，常用在压缩源代码文件。bunzip2。xz，unxz
+48、Linux系统的zip和unzip与Windows上的.zip文件格式大部分是兼容的，包括.zip和.exe自解压文件。
+49、文件系统标准结构(FHS，http://www.pathanme.com/fhs/)。
+50、/etc(读作EHT-see),存放系统配置文件。
+51、代码库有两种：静态库和共享库。
+52、/sbin，可执行的系统文件(用户一般不需要使用，许多只有root运行)。
+53、/usr，读作user，存放许多Linux系统文件。
+54、/var,程序存放运行信息的地方。如系统日志、用户信息、缓存和其他信息。
+55、内核位置，/vmlinuz或者/boot/vmlinuz中。可加载内核模块，/lib/modules目录。
+56、su，缺点：对更改系的统命令没有记录信息；对运行上述命令的用户身份没有记录信息；无法访问普通Shell环境；必须输入root密码。
+57、sudo，它会使用local2中的系统日志服务将操作写入日志。
+58、/etc/sudoers文件中加入指定的用户。可以使用visudo编辑/etc/suduoers文件。
+
+
