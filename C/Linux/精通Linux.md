@@ -497,3 +497,48 @@
 121、每次需要建立连接时才手动启动该守护进程，很繁琐。更糟糕的是iw和wpa_supplicant只是建立了物理层的连接，而没有配置好网际层。可使用NetworkManage之类的自动化工具来解决问题。
 122、动态路由协议，如用在大型互联网路由器的边界网关协议(Border Gateway Protocol,BGP).
 
+
+第 10 章 网络应用于服务
+1、Unix服务器有很多种。服务器程序直接或间接地监听端口。服务器功能各异，没有通用的配置数据库。大多数服务器通过配置文件(尽管格式不统一)来定义自身的行为，并使用syslog服务来记录日志。
+2、网络客户端使用操作系统的传输层协议与接口，必须对TCP和UDP传输层有基本了解。
+3、注意：telnet原本是用于登录远程主机的。非Kerberos的telnet是一种不安全的登录服务器，但telnet客户端则是一个调试远程服务的有用工具。它只用到TCP；多用途网络客户端，可考虑使用netcat。
+4、curl，记录通信细节.curl --trace-ascii test_trace  http://www.wikipedia.org/
+5、大多数网络服务器跟cron之类的服务器守护进程很像，只不过网络服务器与网络端口进行交互。
+6、常见的网络服务器，httpd、apache、apache2：Web服务器；sshd：Secure shell守护进程；postfix、qmail、sendmail：邮件服务器；cupsd：打印服务器；nfsd、mountd：网络文件系统(文件共享)守护进程；smbd、nmbd：文件共享守护进程；rpcbind：远程程序调用(RPC)端口映射服务进程。
+7、它们通常的多进程的。调用fork会增加系统负担，而高性能TCP服务器(如Apache Web服务器)能在启动时就创建一定数量的辅助进程，已备连接需要。接受UDP包的服务器只会简单地接收数据并对其作出反应，它们不需要维持连接。
+8、SSH，它一种远程连接Unix机器的标准。配置好之后，可通SSH进行安全的shell登录、执行远程程序、共享简单的文件等。凭借公钥认证和简单的会话加密，取代了旧的、不安全的远程登录系统telnet和rlogin。缺点：必须先知道远程主机公钥。
+9、OpenSSH，几乎所有Linux发行版预装了它。客户端是ssh，服务器是sshd。SSH协议有两个主要按版本：1和2，1很少用。
+10、加密技术的运作方式，可参考Bruce Schneier的Applied Crytography：Protocol，Algorithms，and Source Code in C，2nd edition(1996).深入介绍SSH的书有两本，Michael W.Lucas的SSH Mastery(2012)和Daniel J.Barret SSH，The Secure Shell(2005)
+11、SSHD服务器，需要一个配置文件和主机秘钥(短的)。OpenSSH有三套主机秘钥：用于版本1的协议，另两个用于版本2.RSA和DSA都是公钥加密算法。一般不需要自己建立秘钥。ssh-keygen创建。
+12、基于主机的认证，服务器端的ssh_known_hosts必须要包含所有可信客户端的公钥。了解秘钥文件有助于你更换机器。
+13、开启SSH服务器。发行版默认不会启动sshd服务器。chkconfig ssd on(开机自启动)service sshd start。
+14、SSH客户端，ssh remote_username@host，文件传输，scp和sftp。scp user@host:file .
+15、注意：对功能性和灵活性的要求超过了scp和sftp提供的，如经常进行大文件的传送，试rsync。
+16、PuTTy是一个不错的Windows客户端，它包含了安全的文件复制程序。MacSSH。
+17、守护进程inetd和xinetd.inetd守护进程，它是一个超级服务器，用于规范网络端口的接入和服务器程序与网络端口之间的接口。xinetd正被systemd取代。
+18、建立服务的要素，
+19、TCP封装器，tcpd、/etc/hosts.allow、/etc/hosts.deny.使用率不高。
+20、诊断工具，netstat，-t，-u，-l，-a，-n
+21、lsof，与netstat相似，试图将每个IP反向解析成主机名，这回减慢结果的输出。lsof -iTCP -sTCP:LISTEN,概览运行中的网络服务器进程。
+22、tcpdump，能认出：ARP、RARP、ICMP、TCP、UDP、IP、IPv6、AppleTalk、IPX。注意：如需进行大数量的数据包嗅听，可用wireshark类的GUI工具。
+23、表达元，tcp、udp、port、host、net；最好不要随便嗅听网络，除非该网络是你所有的。
+24、netcat，-l -p 80
+25、扫描端口，网络映射器(Network Mapper，Nmap)扫描开放端口。网络管理员通常会监察这种端口扫描，并屏蔽那些发出扫描的机器。
+26、RPC端口，111
+27、网络安全，打开的服务越少越好，防火墙屏蔽得越多越好，记录你提供给互联网的服务，让服务器使用"长期支持"的系统版本，账号不要发给不用的人，避免安装可疑的二进制包。
+28、三种基本的网络攻击，全面威胁，拒绝服务(Denial-of-service,Dos)攻击，恶意软件。
+29、典型漏洞，直接攻击和嗅探明文密码。Stunnel，擅长封装inetd服务。
+30、ftpd，所有的FTP服务器都存在漏洞，且用明文密码。telnet、rlogind、rexecd，会话内容明文传输；fingerd，黑客获取用户列表和其他信息。
+31、安全资源，http://www.sans.org；http://www.cert.org;http://www.insecure.org.
+32、学习传输层安全(Transport Layer Security,TLS)及其前身----SSL(安全套接层)。
+33、Davies的Implementing SSL/TLS Using Cryptography and PKI(2011)不错的指南。
+34、Apache网页服务器和Postfix邮件服务器。
+35、Unix上，进程是用套接字来标识与网络通信的时机与方式的。套接字是进程通过内核访问网络的接口，它代表用户空间与内核空间的边界。它常被用于进程间通信(Interprocess Communication,IPC).
+36、注意：服务器涉及两种套接字，监听套接字和读写套接字。主进程用监听套接字在网络中寻找连接。
+37、《Unix Network Programming，Volumn1，3rd edition》，第二卷讲到进程间通信。
+38、Unix域套接字，进程域Unix域套接字的连接几乎与网络套接字连接一样。注意：它并不是网络套接字，其背后也没有网络。
+39、使用网络设施的应用不需要将两台分隔的主机牵扯在一起。
+40、Unix域套接字不需要非得与套接字文件绑定，进程可创建非命名Unix域套接字，并与其它进程分享它的地址。
+41、Linux内核与Unix域套接字通信并不需要经历网络层次，所以性能会比网络套接字好。MySQL，同时支持两种连接。
+42、列出Unix域套接字，lsof -U。许多现代的应用都用到了非命名套接字。
+
