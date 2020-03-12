@@ -1,0 +1,74 @@
+网络资料整理
+
+https://blog.csdn.net/yangchun1213/article/details/7722520
+1、两种方式访问WPF图像处理API：托管组件和非托管组件(使用于新的或专用图像格式的扩展性模型)。
+2、位图(BMP)、联合图像专家组(JPEG)、可移植网络图形(PNG)、标记图像文件格式(TIF)、Microsoft Windows Media照片、图形交换格式(GIF)、图标(ico)。
+3、编解码器用于对特定媒体格式解码或编码。
+4、BitmapSource，用于对图像进行解码和编码。是WPF图像处理管线的基本构造块，表示具有特定大小和分辨率的单个不变的像素集。是BitmapFrame的父级。
+5、BitmapFrame用于存储图像格式的实际位图数据。
+6、解码器的选择是基于图像格式做出的。编码器的选择是自动做出的。
+7、使用非托管WPF图像处理界面开发并向系统注册的自定义格式解码器会自动加入到解码器选择队列。
+8、在WPF中显示图像，Image控件，ImageBrush在可视图面上绘制图像或使用ImageDrawing绘制图像。设置BitmapImage的DecodePixelWidth或DecodePixelHeight(Image.Source需要的宽高)降低内存使用。
+9、BitmapImage是一个专用的BitmapSource，已经优化为用于扩展应用程序标记语言(XAML)加载。是一种将图像显示为Image控件的Source的简便方式。
+10、BitmapImage实现ISupportInitialize接口，以对多个属性的初始化进行优化。只能在对象初始化过程中进行属性更改。调用BeginInit以表示初始化开始；调用EndInit以表示初始化结束。
+11、旋转、转换和裁切图像,使用BitmapImage的属性或使用其他BitmapSource对象(如CroppedBitmap或FormatConvertedBitmap)来转换图像。
+12、BitmapImage的Rotation属性来执行图像旋转。旋转只能以90度的增量进行。
+13、FormatConvertedBitmap将图像转换为不同的像素格式，如灰度。
+14、Image或CroppedBitmap的Clip属性，裁切图像。
+15、拉伸图像，Strecth。
+16、绘制图像，Brush。ImageBrush是一种TileBrush类型，用于将其内容定义为位图图像。
+17、图像元数据，每个图像格式处理元数据的方式不同，WPF图像处理提供一种统一的方式来为每个支持的图像格式存储和检索元数据。
+18、通过BitmapSource对象的Metadata属性来进行。
+19、WPF支持的图像元数据架构：可交换图像文件(Exif)、tEXt(PNG文本数据)、图像文件目录(IFD)、国际新闻通信委员会(IPTC)和可扩展元数据平台(XMP)。
+20、BitmapMetadata提供若干属性。元数据查询读取器提供对读取元数据的其他支持。GetQuery方法，通过提供字符串查询。SetQuery获取产寻编写器并设置需要的值。
+21、编解码器扩展性，说明：编解码器必须进行数字签名，以便于系统识别。
+
+
+1、图像信息保存在Frames(大部分图像(jpg，bmp，png等)只有一帧，但GIF，ico等图像有多帧)属性中。
+
+https://www.cnblogs.com/xrwang/archive/2010/01/26/TheComparisonOfImageProcessingLibraries.html (图像处理类库比较)
+1、OpenCv(BSD)、EmguCv(GPLv3,付费)、AForge.net(LGPLv3，原生.net库)。
+2、OpenCv：http://sourceforge.net/projects/opencvlibrary/files/，VC下使用需要重新编译。大多数功能都以C风格函数形式提供。
+3、图像处理大部分时间都用于内存读写及运算(特别是矩阵)。
+
+整理完成了C# WinForm开发系列 - 图形图像处理文章
+https://bbs.csdn.net/topics/310177057
+
+完全免费的矢量图标网站阿里妈妈iconfont，超级好用。
+
+《C#数字图像处理算法》典型实例，赵春江，人民邮电出版社。
+
+https://blog.csdn.net/aobannie0463/article/details/101118518?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
+1、C#下完指针+Struct，和C没啥区别。图像处理这样的基本类型简单的程序，非常适合用C#编写。大量的指针，大量用非托管内存，可最大化性能。最小化内存占用，最小化GC对程序的影响。
+2、使用硬件。对图像处理加速最有效果的是GPU。无界面的情况下调用GPU，需要引用XNA。
+3、进一步就是写HLSL了。
+4、https://www.cnblogs.com/xiaotie/archive/2010/03/08/1680662.html(高手)
+5、https://blog.csdn.net/weixin_33946020/article/details/86057618
+6、https://www.cnblogs.com/xdesigner/
+
+在WPF中创建OpenGL Windows
+
+Windows Forms 2.0 Programming (2nd Edition) (Microsoft .NET Development Series) (Paperback)
+by Chris Sells, Michael Weinhardt 
+http://www.amazon.com/Windows-Forms-Programming-Microsoft-Development/dp/0321267966/ref=pd_bxgy_b_img_b/002-4945107-4387252
+Data Binding with Windows Forms 2.0: Programming Smart Client Data Applications with .NET (Microsoft .NET Development Series) (Paperback)
+by Brian Noyes 
+http://www.amazon.com/Data-Binding-Windows-Forms-2-0/dp/032126892X/ref=pd_bxgy_b_img_b/002-4945107-4387252
+
+
+如何学习C++图像处理
+1、机器视觉，小公司，商业图像处理库，德国的Halcon或美国康耐视公司的VisionPro。类似Matlab。要钱，一两万。大公司，自己写处理算法，用OpenCV。
+2、刚萨雷斯的教材，远远不能涵盖OpenCV3.0时代的所有modules。官方文档。
+3、TensorFlow，学习成本，但在RNN尤其灵活。深度学习的caffe，TS，和图像沾边的OpenCV是一个不可少的开源库。
+4、OpenCV算法分两大类，图像算法如feature2d，机器学习算法ml。需要了解算法的原理。
+5、机器学习，李航的统计学习法，周志华的机器学习。
+6、专栏：【OpenCV】入门教程 https://blog.csdn.net/zhmxy555/category_9262318.html
+7、工程驱动，针对实际问题提出具体的解决方案。
+8、图像方面的如classification，detection等任务，用深度学习会更方便，更简单。直接使用caffe的c++接口，再加WPF完成桌面程序。
+9、其他算法可以自己写，匹配定位绕不开。需要底层算法是那些嵌入式，或产品量巨大。
+
+https://blog.csdn.net/qq_27825451/article/details/84133943 OpenCV3编程入门 OpenCV3计算机视觉python语言实现
+
+使用WriteableBitmap提高WPF图形绘制性能
+1、进行大批量图形数据绘制，利用WriteableBitmap结合GDI+和WPF图形绘制方法，能够大幅度提高图形绘制的效率。
+2、
