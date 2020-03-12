@@ -71,4 +71,14 @@ https://blog.csdn.net/qq_27825451/article/details/84133943 OpenCV3编程入门 O
 
 使用WriteableBitmap提高WPF图形绘制性能
 1、进行大批量图形数据绘制，利用WriteableBitmap结合GDI+和WPF图形绘制方法，能够大幅度提高图形绘制的效率。
+2、BMP(Bitmap)是Windows操作系统中的标准图像文件格式。两类：设备相关位图(DDB)和设备无关位图(DIB).采用位映射存储格式，除了图像深度可选之外，不采用其他任何压缩(占用空间大)。1bit、4bit、8bit、24bit。
+3、Image空间加载Bitmap，需要转为ImageSource类型或BitmapImage的类型。
+4、《C#网络应用编程》第二版 马俊 人民邮电出版社。https://blog.csdn.net/xpj8888/article/list/2?t=1
+5、Uri表达式的一般形式：协议+授权+路径。
+6、https://blog.csdn.net/jiuzaizuotian2014/article/details/81279423
+7、注意WPF中带有图像PNG的DPI-图像比例奇怪或模糊，WPF默认为i96dpi。将SnapsToDevicePixels设置true。
+8、https://docs.microsoft.com/en-us/previous-versions/aa970908(v=vs.100)?redirectedfrom=MSDN
+
+https://blog.csdn.net/WPwalter/article/details/103760445
+1、、WPF控制渲染的部分，D3DImage(用来承载使用DirectX各个版本渲染内容的控件)；WriteableBitmap(内存空间来指定如何渲染一个位图的图片)；HwndHost(承载一个子窗口以便能叠加任何种类渲染的控件)。
 2、
