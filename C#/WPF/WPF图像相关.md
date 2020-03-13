@@ -81,4 +81,34 @@ https://blog.csdn.net/qq_27825451/article/details/84133943 OpenCV3编程入门 O
 
 https://blog.csdn.net/WPwalter/article/details/103760445
 1、、WPF控制渲染的部分，D3DImage(用来承载使用DirectX各个版本渲染内容的控件)；WriteableBitmap(内存空间来指定如何渲染一个位图的图片)；HwndHost(承载一个子窗口以便能叠加任何种类渲染的控件)。
-2、
+2、使用 CompositionTarget.Rendering 逐帧渲染以评估其渲染帧率
+3、使用 Benchmark 基准测试来测试内部各种不同方法的性能差异。
+4、WPF应用程序中的像素捕捉。当边缘的位置落在器件像素的中间而不是器件像素之间时，通常会被视为模糊或半透明的这些伪像。使视觉树中的对象边缘可以通过像素捕捉来捕捉或固定到设备像素，从而消除了抗锯齿产生的半透明边缘。
+5、注意：SnapsToDevicePixels仅影响通过布局遍历运行的元素。可以使用DrawingGroup对象的GuidelineSet属性在图形上设置参考线。若要手动设置Visual的准则，请使用VisualYSnappingGuidelines和VisualXSnappingGuidelines属性创建新准则。
+6、Windows Presentation Foundation（WPF）检测到任何类似于动画的移动（例如滚动，缩放或动画平移）时，将关闭像素捕捉，直到移动完成。动画或滚动运动完成后，将缓慢重新激活像素捕捉。
+7、在Windows Presentation Foundation（WPF）应用程序中应尽可能避免产生高频图像。 
+8、BitmapSource，图像的最大高度和宽度为2 ^ 16像素，每通道32位* 4通道。BitmapSource的最大大小为2 ^ 32字节（64 GB），最大图像大小为4 GB。最小图像尺寸为1x1。
+9、注意：默认的并行循环对于函数体很小的情况是很慢的，这种情况必须用Partitioner 创建循环体，这在MSDN有介绍，是关键之中的关键。
+10、TPL任务并行库，
+11、渲染任何可能的图形的时候没有GC。
+12、查看界面渲染帧率。WPF Performance Suite
+13、脏区大小与 CPU 占用率之间的关系。脏区渲染是 CPU 占用的最大瓶颈（因为没有脏区仅剩内存拷贝的时候 CPU 占用为 0%）
+14、分析主线程的性能分布。
+15、启用基准测试（Benchmark）。
+16、如果 WriteableBitmap 不渲染，那么无论设置多大的脏区都不会对性能有任何影响。
+17、内存拷贝不是 WriteableBitmap 的性能瓶颈。
+18、WriteableBitmap渲染原理，在调用 WriteableBitmap 的 AddDirtyRect 方法的时候，实际上是调用 MILSwDoubleBufferedBitmap.AddDirtyRect，这是 WPF 专门为 WriteableBitmap 而提供的非托管代码的双缓冲位图的实现。
+
+
+https://blog.csdn.net/zuozewei/article/details/82656926
+1、DWM基于Direct3D，D3D下面是WDDM驱动。
+2、Windows图像渲染的基本流程：App->DXruntime->Usermodedriver->dxkrnl->Kernelmodedriver->GPU.
+3、window桌面程序UI自动化测试技术，
+4、Win32程序，所有窗口和控件都是一个窗口的实例，都拥有一个窗口句柄，窗口对象属于内核对象，由Windows子系统来维护(为标准控件定义了窗口类，并使用GDI来绘制这些标准控件)。采用消息循环机制。
+5、WPF程序，使用DirectX绘制，不直接支持MSAA，通过UIA用桥转换技术来支持MSAA，用AutomationPeer类支持自动化，每一种控件都有对一个的AutomationPeer类。
+6、AutomationPeer不直接暴露给测试客户端，而是通过UIA来使用。UIA向应用程序窗口发送WM_GetObject消息，获得由AutomationPeer实现的UIA Server端Provider。AutomationPeer由控件创建(OnCreateAutomationPeer)。
+7、UIAutomation是微软从Windows Vista开始推出的一套全新UI自动化测试技术， 简称UIA。
+8、https://lindexi.gitee.io。
+9、WPF 应用程序从两个线程开始：一个用于处理呈现，一个用于管理 UI。呈现线程有效地隐藏在后台运行，而 UI 线程则接收输入、处理事件、绘制屏幕以及运行应用程序代码。
+10、Exception from HRESULT: 0x88980406 https://blog.csdn.net/muzizongheng/article/details/47008247?locationNum=14
+11、
