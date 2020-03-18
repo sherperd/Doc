@@ -110,5 +110,13 @@ https://blog.csdn.net/zuozewei/article/details/82656926
 7、UIAutomation是微软从Windows Vista开始推出的一套全新UI自动化测试技术， 简称UIA。
 8、https://lindexi.gitee.io。
 9、WPF 应用程序从两个线程开始：一个用于处理呈现，一个用于管理 UI。呈现线程有效地隐藏在后台运行，而 UI 线程则接收输入、处理事件、绘制屏幕以及运行应用程序代码。
-10、Exception from HRESULT: 0x88980406 https://blog.csdn.net/muzizongheng/article/details/47008247?locationNum=14
-11、
+10、Exception from HRESULT: 0x88980406 https://blog.csdn.net/muzizongheng/article/details/47008247?locationNum=14，WPF后端的Render线程渲染UI到DirectX时崩溃。
+11、https://www.cnblogs.com/clowwindy/archive/2009/02/13/1390060.html。线程安全性：可以在线程之间共享冻结的 Freezable 对象。
+12、https://www.jianshu.com/p/1d19514bccea
+13、 Dispatcher的作用是用于管理线程工作项队列，类似于Win32中的消息队列，Dispatcher的内部函数，仍然调用了传统的创建窗口类，创建窗口，建立消息泵等操作。
+14、DispatcherObject 类有两个主要职责：提供对对象所关联的当前 Dispatcher 的访问权限，以及提供方法以检查 (CheckAccess) 和验证 (VerifyAccess) 某个线程是否有权访问对象（派生于 DispatcherObject）。
+15、线程上的操作又由Dispatcher分为不同的优先级。如果不希望UI上出现卡顿的情况，就必须将UI线程的图片加载（render）操作的优先级别降到UI线程上输入（input）操作的优先级之下。也就是input操作优先于图片呈现，界面就不会出现卡死状态。
+16、优秀博客，https://www.cnblogs.com/loveis715/
+17、PPL（C++并行模式库 ）和TPL(C#并行模式库)，https://docs.microsoft.com/en-us/previous-versions/msp-n-p/gg675934(v=pandp.10)?redirectedfrom=MSDN
+18、试试这本 Parallel Programming with Microsoft Visual C++还有对于的 C#版本 Parallel Programming with Microsoft .NET再试试跨平台的库 Threading Building Blocks |再试试gpu版本的 Thrust | CUDA ZONE
+19、
