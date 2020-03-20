@@ -173,3 +173,80 @@
 61、逻辑内核并不是物理内核，必须对底层的硬件非常了解，才能测试可扩展性，避免得出错误的结论。
 62、通过甘特图(Gantt chart)检测临界区，甘特图是一种线条图，用于图解项目安排以及相关联任务之间的依赖关系。理解任务之间的依赖关系，且判断哪些任务可以并行运行，哪些不能并行运行。
 63、好的设计对于应用程序的性能和编码而言总是非常有帮助。
+
+第 3 章 命令式任务并行
+1、创建并管理多个线程和使用线程池充分利用多核技术和多处理器。新的Task实例可通过更简单的代码解决命令式任务并行问题和编写复杂的算法。
+2、使用任务而不是线程来创建并行代码，且描述了与每一个场景相关的一些新概念。基于任务的编程模型。
+3、创建和管理任务，
+4、TPL基于任务的编程模型，可发挥多核的功效，提升应用程序的性能，且不需要编写底层、复杂且重量级的线程代码。任务的运行需要使用线程。任务和线程并没有一对一的关系。
+5、运行在多个线程中的同步代码是非常复杂的。TPL，将一些同步问题(特别是工作调度机制)隐藏在身后。
+6、CLR通过工作窃取队列(work-stealing queue)减少锁的使用，以及调度小的工作块(work chunk),而不会增加明显的开销。
+7、创建新的线程会引入巨大的开销，但创建新的任务能够从现有的线程中窃取工作。
+8、默认的任务调度器依赖于底层的线程池引擎。调度器会使用工作窃取队列找到一个最合适的线程，然后将任务加入队列。
+9、System.Threading.Tasks.Task，
+10、Parallel.Invoke,TPL会在幕后，创建Task实例，创建与调用委托数目一致的实例。
+11、一个Task表示一个异步操作(asynchronous operation)，对执行进行控制，且获得关于其状态的信息。Task的创建和其执行是独立的，因此可对相关联操作的执行拥有完全的控制权。
+12、Task只读属性，AsyncState(状态对象)，CreationOptions，CurrentId(正在执行的Task的唯一ID，不同于非托管代码中的ID)，Exception，Factory，Id，IsCanceled，IsCompleted，IsFaulted，Satus
+13、理解Task状态和生命周期，一个Task实例只会完成其生命周期一次。当Task到达它的3种可能的最终状态之一时，它就再也回不去之前的任何状态了。
+14、一个Task表示并发的代码，这些代码的执行取决于底层硬件和运行时可用的资源。
+15、TaskStatus，初始状态，三种：Created(Task构造函数创建，Start或RunSynchronously方法改变，取消)，WaitingForActivation(使用定义延续的方法创建的)，WaitingToRun(TaskFactory.StarNew，等待某个特定的调度器挑选自己并运行)。
+16、TaskStatus，最终状态，running，WaitingForChildrenToComplete(关联子任务)。Canceled，Faulted(存在未处理的异常，导致任务结束)。RanToCompletion。
+17、通过使用任务来对代码进行并行化。使用Parallel Tasks和Parallel Stacks窗口对任务进行可视化。
+18、任务通过一个是自动生成的匿名方法名称和一个数字识别的。
+19、线程的分配取决于当前可用的硬件资源以及CLR任务调度器和Windows调度器所采取的操作。
+20、CLR任务调度器会试图从最合适的线程中窃取工作。还会决定创建新的线程支持任务的执行。并不能保证底层的线程能够并行运行。操作系统调度器会在数十个甚至数百个被调度在可用内核上使用处理器时间的线程之间分配内核。
+21、工作线程必须使用委托来更新UI，在主线程中运行代码。在基于任务的编程模型，UI的更新是一个很复杂的主题。
+22、等待任务完成，等待任务完成花费的时间使用的是轻量级的机制，能够尽可能地节省CPU周期。
+23、忘记复杂的线程，Task.WaitAll方法在超时的时候并不会取消任务---只是结束同步执行并返回一个bool结果。
+24、Task实例的Wait方法。可接收超时时间。
+25、通过取消标记取消任务，cancellation token，中断Task实例的执行。委托中添加一些代码。一个CancellationToken实例，且通过调用ThrowIfCancellationRequested方法抛出OperationCanceledException异常。
+26、任务的实现将会在调研委托之前检查取消标记。
+27、CancellationTokenSource能够初始化取消的请求。CancellationToken能够将这些请求传递给异步的操作。
+28、。CancellationToken必须作为参数传递给每一个任务委托。它的实例通过信号机制来传播必须取消的操作。
+29、TaskFactory，更多的选项。异步操作的取消非常简单，只需添加几行代码就可以了。添加必要的清理代码是非常重要的。
+30、处理任务抛出的异常，
+31、从任务返回值，为调用函数并且使用Task<TResult>实例。
+32、TaskCreationOptions，定义任务创建、调度和执行的可选行为。
+33、通过延续(continuation))串联多个任务，任务实例上调用ContinueWith方法。
+34、链式任务(chained tasks)。
+35、通过延续混合并行代码和并行代码，使用复杂的延续。
+36、TaskContinuationOptions参数，带有一些标志，可以控制延续另一个任务的任务调度和执行的可选行为。
+37、通过任务编写复杂的带有临界区的并行算法。延续时，向调度器提供的信息非常有价值，调度器通过这些与任务有关的信息能够判断当前的任务完成之后应该如何分配新的任务。优秀的设计能够避免额外的开销。
+38、编写适应并发和并发的代码，新的数据结构，简化很多复杂的同步问题：并发集合类、轻量级同步原语、惰性初始化的类型。尽可能避免使用锁(lock)，且在必要的情况下使用的是细粒度的锁。锁会产生很多潜在的bug，且可能会极大地降低可扩展性。
+
+
+第 4 章 并发集合
+1、5个新类和一个新接口。
+2、理解并发集合提供的功能，并发集合已经准备好了接受并发和并行的方法调用，解决潜在的死锁问题和竞争条件的问题。尽可能地减少了需要使用锁的次数，使得在大部分情形下能够优化为最优性能。
+3、死锁和竞争条件的问题可能很难侦测。
+4、线程安全并不是没有代价的。并发集合会有更大的开销。只需从多个任务中并发访问集合的时候使用并发集合。
+5、System.Collections.Concurrent,解决线程安全的问题。BlockingCollection<T>，适用于有多个任务添加和删除数据的生产者--消费者的情形，是对一个IProducerConsumer<T>实例的包装器，提供了阻塞和限界的能力；ConcurrentBag<T>，提供了一个无序的对象集合；ConcurrentDictionary<TKey,TValue>；ConcurrentQueue<T>；ConcurrentStack<T>。在某种程度上使用了无锁技术，可获得性能提升。这些集合通过使用比较并交换(compare-and-swap，CAS)指令和内存屏障(memory barrier)，避免了使用典型的互斥的重量级锁。
+6、ConcurrentQueue，完全无锁的。永远不会获得锁，但是当CAS操作失败且面临资源争用，可能会自旋并且充实操作。
+7、资源争用，指的是当很多任务或线程试图同时使用一个资源时所发生的情况。
+8、理解并行的生产者-消费者模式(producer-consumer)，分解两阶段的线性流水线。
+9、通过信号机制，可避免使用低效的循环。不同的任务和线程之间进行通信管理。
+10、使用多生产者和消费者。多阶段的线程流水线。模式的整体性能和引入的延迟测量是非常重要的事情。
+11、ConcurrentQueue，必须维护一个FIFO的顺序。
+12、通过并发集合设计流水线，
+13、一个完美的线性流水线中段的数目应该与可用的逻辑内核数目相等，且每一个阶段都应该有等量的工作。
+14、ConcurrentStack，重要方法，Push、Trypop、TryPeek。IsEmpty，判断栈是否包含任意项。比ConcurrentQueue速度快。在一个原子操作内将多个元素插入栈顶或从栈顶移出，PushRange和TryPopRange。Clear方法移除所有项(原子操作)。
+15、将使用数组和不安全集合的代码转换为使用并发集合的代码，创建一个新的并发集合实例，将不安全的集合作为参数传入。
+16、使用以下方法根据并发队列中的元素创建一个不安全的集合，CopyTo，ToArray。
+17、ConcurrentBag，在同一个线程添加元素(生产)和删除元素(消费)的场合效率特别高。使用很多不同的机制，最大程度地减少了同步的需求以及同步锁带来的开销。有时会需要锁(完全分开的场景，效率非常低)。
+18、ConcurrentBag为每一个访问集合的线程维护了一个本地队列，会以无锁的访问这个本地队列。
+19、ConcurrentBag表示一个无序组(bag)，即一个无序的对象集合，且支持对象重复。方法：Add、TryTake、TryPeek。IsEmpty。
+20、检查ConcurrentBag的IsEmpty属性的值的开销非常大，需要临时获取这个无序组的所有锁。
+21、volatile关键字。可确保在不同的线程中进行访问的时候，可得到最新值。
+22、IProducerConsumerCollection，接口定义了对用于生产者-消费者情形的并发集合进行操作的方法。从ICollection、IEnumerable和IEnumerable<T>继承而来。CopyTo、ToArray、TryAdd、TryTake。
+23、BlockCollection，对IProducerConsumerCollection<T>实例的一个包装。支持限界(bound)和阻塞(block)。对生产者-消费者场景和流水线的实现都非常有用。
+24、BoundedCapacity属性保存了为集合指定的最大容量。当集合容量达到这个值时，添加元素的请求，生产者任务或线程将会被阻塞。限界功能对于控制内存中集合的最大大小，特别是处理大量元素的时候，非常有用。
+25、当IsAddingCompleted为true且集合为空时，IsCompleted属性将会被设置为true。集合已经被生产者标记为完成。
+26、GetConsumingEnumerable方法返回底层集合的枚举器，且允许使用foreach移除元素。阻塞循环，等待添加新的元素。更高效。
+27、应该避免使用不必要的自旋。
+28、默认情况，BlockingCollection封装了一个ConcurrentQueue。可在构造函数中指定一个不同类型的病啊集合。元素的顺序将会发生改变。
+29、取消BlockingCollection进行的操作。
+30、使用并发集合的错误实现可能会导致任务永远等待。
+31、通过多个BlockingCollection实例实现一个过滤流水线。AddToAny，TryAddToAny；TakeFromAny和TryTakeFromAny。
+32、随机数生成器并不会太高效。
+33、ConcurrentDictionary，对读操作是完全无锁的。对频繁使用读取操作的场景进行了优化。添加或修改，使用细粒度的锁。AddOrUpdate，键不存在，添加新键值对，存在，更新(不是线程安全)。GetEnumerator；GetOrAdd；TryAdd；TryGetValue；TryRemove；TryUpdate。
+34、IEqualityComparer接口。
