@@ -319,3 +319,37 @@
 64、正确性比好的性能要重要得多。
 
 
+第 6 章 PLINQ：声明式数据并行
+1、declarative data parallelism。PLINQ，混合使用任务和数据分解。
+2、理解潜在的性能瓶颈以及解决这些瓶颈的不同技术也是非常重要的事情。
+3、从LINQ转换到PLINQ，具体加速效果取决于具体的场景。
+4、ParallelEnumerable及其AsParallel方法，
+5、AsOredered和Orderby子句。
+6、要求顺序结果的PLINQ查询并不能获得明显的性能提升。另一种方法：在多个独立的任务中，或者使用Parallel.Invoke运行很多个LINQ查询。
+7、指定执行模式，PLINQ是使用支持并行执行的任务和线程来并行执行查询中的不同部分。.NET会根据查询的形态来做出决策，而并不考虑数据集额大小和委托的执行时间。强制并行执行，WithExecutionMode方法并传入ParallelExecutionMode.ForceParallelism来实现。
+8、理解PLINQ中的数据分区，复杂的查询在执行过程中可能还会重新分区。接受输入数据源之后，根据可用逻辑内核数将数据分解为多份。然后使任务在不同的内核上处理每一部分。
+9、根据查询形态的不同，PLINQ执行引擎会使用以下4个主要的算法来进行数据分区：范围分区(range partitioning),可用于可索引的数据源(如列表和数组，通过IList接口查询)；数据块分区(chunk partitioning),可用于任何数据源；交错式分区(striped partitioning),对在数据源顶部对数据项进行处理的情况进行了优化，SkipWhile或TakeWhile；散列分区(hash partitioning)，对数据元素的比较进行了优化，数据和任务之间建立了通道，带有相同散列码的数据项会被发送到同一个任务中(distinct,except,groupjoin,groupby,intersect,join,union)。
+10、通过PLINQ执行规约操作，PLINQ可简化对一个序列或一个组中的所有成员因公一个函数的过程，这个过程称为规约操作。Average、Max、Min、Sum。一定要通过对应的串行版本来定义原始的数据源，帮助PLINQ获得最优的执行结果。
+11、创建自定义的PLINQ聚合函数，提供一个重载的Aggregate，允许实现自定义的并行规约算法。
+12、标准偏差(Standard deviation)---所有值从平均值偏离的程度。
+13、偏度(Skewness)---一个分布在其平均数周围的不对称程度。
+14、峰度(Kurtosis)---分布相对于正态分布而言是更加高耸还是更加平坦。
+15、Aggregate使用4个参数计算标准偏差，累加器函数的初始值；更新累加器函数；合并累加器函数；结果选择器。
+16、将所有的操作都放在一个Aggregate调用中的效率可能比对每一个操作都做一次Aggregate调用多次效率更高。
+17、并发PLINQ任务，
+18、取消PLINQ，
+19、指定所需的并行度，WithDegreeOfParallelism。
+20、Environment.ProcessorCount，需要Plarform Invoke(P/Invoke)。要求进行一次平台调用，这个调用的开销并不小。
+21、测量可扩展性，
+22、使用ForAll，接受一个动作(Action)作为参数。
+23、foreach和ForAll的区别，
+24、当超过物理内核，额外的任务需要在同一个物理内核的超线程内核上运行。
+25、通过WithMergeOptions配置返回结果的方式，AutoBuffered,使用一个输出缓冲来基类结果；Default，使用AutoBuffered；NotBuffered，增加同步开销，增加整体的执行时间，降低获得第一个结果元素的潜伏时间；FullyBufferred，使用完整的输出缓冲来基类结果，减少同步开销。
+26、处理PLINQ抛出的异常，
+27、PLINQ查询有延缓执行的效果。一定要捕捉查询所产生的结果数据在被消费者消费时产生的异常。
+28、使用PLINQ执行MapReduce算法，
+29、MapReduce算法，是一种非常流行的算法框架，能够充分利用并行化处理巨大的数据集。基本思想：将数据处理问题分解为以下两个独立且可以并行执行的操作：映射(Map)，对数据源进行操作，为每一个数据项计算出一个键值对;规约(Reduce)，对映射操作产生的根据键进行分组的所有键值对进行操作，对每一个组执行规约操作。
+30、工作节点，work node。
+31、使用IGrouping从一个集合中将带有同一个键的元素挑选出来。
+32、使用PLINQ设计串行多步操作。
+33、定位处理的瓶颈。
