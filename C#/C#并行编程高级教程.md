@@ -391,3 +391,28 @@
 24、指定自定义大的任务调度器，TaskScheduler类，一个实例表示一个对象，负责管理将任务加入线程队列的底层工作。并不简单。
 25、流水线是一种能够从这种调度机制获益的典型算法。每一个表示一个阶段的任务运行在不同的线程中可以获得性能的提升。
 26、ThreadPerTaskScheduler类，是TaskScheduler类的一个子类。既没有局部队列，也没有使用工作窃取技术。重载的方法：GetScheduledTasks，返回当前调度至调度器的任务；QueueTask；TryExecuteTaskInLine。
+
+
+第 9 章 异步编程模型
+1、充分利用Task实例的简洁性以及它们所提供的任务延续功能，在此基础上执行与现有异步编程模型相关的并发异步作业。
+2、通过多个不同的任务和线程对用户界面(UI)进行更新的过程。
+3、结合使用异步编程和任务，
+4、一个Task实例表示一个异步操作。计算密集型的异步操作、I/o密集型的异步操作或两者的结合，可利用TPL提供的简洁性和强大的功能。
+5、I/O密集型的工作流程通常会留有一个线程等待I/O操作结束。
+6、线程非常消耗资源，不应该给每一个异步的I/O操作都创建一个新的线程。通过Task.Factory.FromAsync方法可以运行大量所需的并发I/O操作，且充分利用并行化的优势，能够在更短的时间内完成工作。当异步I/O操作正在运行时，不会使用任何线程。只有在I/O操作完成时才需要使用线程资源。
+7、早期的异步编程模式：异步编程模型(Asynchronous Programming Model,APM),.NET Framework1，也称Begin/End模式，IAsyncResult、AyncCallback；基于事件的异步模式(Event-based Asynchronous Pattern, EAP),.NET Framework2，一个以Async为后缀的方法加载异步执行。
+8、使用TaskFactory.FromAsync。
+9、编写异步方法执行结束之后的延续，合并多个并发异步操作的结果。
+10、UI控件的事件处理程序中的代码执行的很多操作都应该放在独立的列中，从而通过这种方式从UI中解耦出一个或多个层次。将功能和解耦技术以及面向对象编程技术结合在一起使用。
+11、通过任务来执行大量的并发异步操作，且不会消耗大量的线程。
+12、执行异步WPF UI更新，使用UI线程的Dispatcher。Invoke，同步地执行一个委托，调用SynchronizzationContext的Send方法；BeginInvoke方法，异步地执行一个委托，且允许指定这个委托在队列中的优先级，调用SynchronizzationContext的Post方法。
+13、TaskScheduler类提供了FromCurrentSynchronizationContext静态方法，简化创建一个与当前SynchronizzationContext相关联的TaskScheduler实例的工作。任务延续调度运行在恰当的同步上下文中。
+14、执行异步Windows Forms UI更新，使用了一种不同的模型用于向特定的同步上下文打包发送工作。调用目标控件的Invoke或BeginInvoke方法。
+15、利用TaskScheduler.FromCurrentSynchronizationContext静态方法执行UI控件的异步更新，不用考虑每一个UI框架的打包模型(marshaling model)。
+16、恰当的同步上下文的TaskScheduler。
+17、创建执行EAP操作的任务，使用System.Threading.Task.TaskCompletionSource<TResult>实例将EAP操作表示为一个Task<TResult>。
+18、借用TaskCompletionSource，尝试将底层的Task<TResult>转换为某个特定的状态。TrySetCanceled、TrySetException、TrySetResult。它会负责开始底层的Task<string>。
+19、一定解除注册回调函数，以避免不必要的内存泄漏。
+20、2010年10月，微软，Commnunity Technology Preview(社区技术预览，CTP)。引入新的基于任务的异步模型(Tasked-based Asynchronous Pattern,TAP)。用于创建与两个可以简化异步编程的关键字兼容的方法，async和await。
+21、async，将一个方法或一个lambda表达式标记为异步；await，进行异步调用的时候，一定要给这个方法的签名添加async关键字。
+22、await操作符会出让控制权，直到异步操作完成执行。不需要创建回调函数。编译器会自动完成一些工作，将您的代码转换为异步调用，且处理必要的转换，返回TResult而不是返回Task<TResult>。
