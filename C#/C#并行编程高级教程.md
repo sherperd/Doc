@@ -461,3 +461,48 @@
 30、在UI线程中应该只运行必要的代码，且要记住对UI进行解耦。
 31、理解伪共享(fasle sharing)，缓存线跳跃(cache line ping-pong)
 32、缓存内存能够以缓存线(cache line)的形式对数据记性分组，从而将数据转移至主内存，或从主内存中转出。
+
+
+第 11 章 向量化、SIMD指令以及其他并行库
+1、线程局部存储(thread-local storage)类，提供的延迟初始化功能。
+2、理解SIMD和向量化，
+3、单命令多数据(Single Instruction,Multiple Data, SIMD)指令。它的执行单元通常都属于一个物理内核。
+4、调用SIMD指令之前，需要对数据打包，且调用之后需要对输出解包。需测量额外的开销。
+5、很多通过C或C++编写的应用程序都可以利用这些指令来计算向量或矩阵。多个数据块执行计算的算法。
+6、大部分现代C和C++编译器都能够对循环进行优化，使能够充分利用SIMD指令集的优势。编写循环对数组进行操作的时候，遵循一些指导原则，可实现自动向量化。
+7、.NET Framework4对SIMD或自动化向量没有提供直接的支持。C#代码无法使用调用SIMD指令，且C#编译器也没有体用选项允许在对数组进行操作的时候使用SIMD指令。可使用一些经过优化的、可充分利用SIMD指令所带来的性能提升库。Intel Math Kernel Library(MKL)和Intel Integrated Performance Primitives(IPP)。
+8、从MMX到SSE4.X和AVX，
+9、大部分现代微处理器都能执行SIMD指令。都属于不同的扩展指令集。
+10、Intel CPU支持一下SIMD，MMX，SSE,SSE2,SSE3,SSE3,SSSE3,SSE4.1,SSE4.2,AES-NI,AVX。
+11、MKL和IPP高性能库能够自动探测可用的扩展指令集，且可根据底层硬件所提供的能力对执行进行优化。
+12、AVX(Advanced Vector eXtensions)，通过一条指令对一个256位的打包数据执行某些操作。
+13、检测CPU支持的指令集。使用CPU-Z。
+14、使用Intel Math Kernel Library，它是一个高度优化的数学函数库，可用于科学、工程和金融等领域的应用程序。根据底层的硬件使用多线程和SIMD指令来获得最佳性能。MKL3.0引入一个简单的DLL文件mkl_rt.dll，可在C#代码中通过Platform Invoke(P/Invoke)对其进行调用。
+15、计算离散傅里叶变换，将一个时域的信号转换为一个频域的信号。是一个线性函数，且具有可交换性，可根据傅里叶系数中的信息可重建原始的信号。
+16、离散傅里叶变换，也称DFT，是一种特定类型的傅里叶变换，应用于一组有限序列的离散值。
+17、快速傅里叶变换，FFT，是一种执行离散傅里叶变换的优化算法。将N个点的计算复杂度从2N*N降低为2NlogN。
+18、离散傅里叶变换在信号处理和数字滤波中非常有用。
+19、MKL库中包含的离散傅里叶变换函数就使用了FFT算法。
+20、使用使用于多核的高度优化的软件函数。
+21、如何在UML图中添加并发的文档。
+22、将基于任务的编程和外部优化的库混合使用。
+23、并行生成伪随机数，System.Random类保存了一个内部状态，它不是线程安全的。默认情况下，通过无参的构造函数创建一个新的Random实例，采用时间相关的值作为种子。使用Environment.TickCount作为默认种子。ThreadSafeRandom类。
+24、ThreadLocal<T>类以一种高效的方式提供了数据的线程的本地存储，且允许指定一个Func<T>。延迟初始化。提供了一种高效的线程本地存储的实现。对ThreadLocal的值进行访问会带来一些开销。
+25、使用Intel Integrated Performance Primitives，适用于数字媒体和数据处理应用程序。包含多个DLL。
+
+
+附录 B 并发UML模型
+1、结构图，从不同角度描述了系统的结构。与并行和并发相关的标记可添加至以下4中结构图：类图、组件图、部署图、包图。
+2、类图，新的intereotype：immutable、parallelized、thread-safe、stateless。Concurrency属性：Sequential、Guardend、Concurrent。通过标签可可视化类的行为。
+3、组件图，指定parallelized。
+4、部署图，使用约束和注记，包含某个节点所需的最少硬件线程数的信息。
+5、包图，指定parallelized。
+6、行为图，从多个角度描述了正在建模的系统吗，通过注记对它进行扩充。活动图；用例图，
+7、泳道(Swim lane)。VS2010不支持，且不支持用例图。
+8、用例图可鼓励你开始思考可能并发发生的情形，以及如何从并行化中获益。描述一系列的动作。
+9、交互图，交互概览图、时序图。
+
+
+附录 C Parallel Extensions Extras
+1、协调数据结构，Extensions，并行算法，Partitioners。
+2、任务调度器，13种实现。
